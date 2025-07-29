@@ -1,0 +1,101 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "account_id": "4e3646aaf967d8895e6596df2d62c3bf",
+  "name": "hswlp-shell-games",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "global_fetch_strictly_public"
+  ],
+  // Minification helps to keep the Worker bundle size down and improve start up time.
+  "minify": true,
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".open-next/assets"
+  },
+  "observability": {
+    "enabled": true
+  },
+  /**
+     * Smart Placement
+     * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+     */
+  "placement": {
+    "mode": "smart"
+  },
+  /**
+     * Bindings
+     * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+     * databases, object storage, AI inference, real-time communication and more.
+     * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+     */
+  /**
+     * Environment Variables
+     * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+     */
+  "vars": {
+    "EMAIL_FROM": "no-reply@hswlp.hu",
+    "EMAIL_FROM_NAME": "HSWLP System",
+    "EMAIL_REPLY_TO": "support@hswlp.hu",
+    "JWT_SECRET": "J39sUxv9cvxqbiZDRfLoIGVYh3OcPK5Eq5zzT+eLq9tTyKX7j8pNR3p+E/OnswGZ8NWxKdfmrA1LZK1APpT7Hg=="
+  },
+  /**
+     * Note: Use secrets to store sensitive data.
+     * https://developers.cloudflare.com/workers/configuration/secrets/
+     */
+  /**
+     * Service Bindings (communicate between multiple Workers)
+     * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+     */
+  "services": [
+    {
+      "binding": "WORKER_SELF_REFERENCE",
+      "service": "hswlp-shell-games",
+    }
+  ],
+  "durable_objects": {
+    "bindings": []
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "DOQueueHandler"
+      ],
+    },
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "games-d1",
+      "database_id": "c6c87e09-472f-4c18-ba8c-bdf78a7df5d4",
+      "migrations_dir": "src/db/migrations"
+    },
+    {
+      "binding": "NEXT_TAG_CACHE_D1",
+      "database_name": "games-d1",
+      "database_id": "c6c87e09-472f-4c18-ba8c-bdf78a7df5d4"
+    }
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION_KV",
+      "id": "8d54a3027a4a409aaa8f1aaca9dc5171"
+    },
+    {
+      "binding": "NEXT_INC_CACHE_KV",
+      "id": "60d93d82ece44987aefed74b1ec420ef"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "bucket_name": "games-r2",
+      "binding": "games_r2"
+    }
+  ]
+}
