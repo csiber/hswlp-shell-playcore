@@ -34,12 +34,12 @@ export const generateRegistrationOptionsAction = createServerAction()
       });
 
       if (!user) {
-        throw new ZSAError("NOT_FOUND", "Felhasználó nem található");
+        throw new ZSAError("NOT_FOUND", "User not found");
       }
 
       // Verify the email matches the logged-in user
       if (user.id !== session?.user?.id) {
-        throw new ZSAError("FORBIDDEN", "Csak a saját fiókodhoz regisztrálhatsz passkeyt");
+        throw new ZSAError("FORBIDDEN", "You can only register a passkey for your own account");
       }
 
       // Check if user has reached the passkey limit
@@ -51,7 +51,7 @@ export const generateRegistrationOptionsAction = createServerAction()
       if (existingPasskeys.length >= 5) {
         throw new ZSAError(
           "FORBIDDEN",
-          "Elérted a passkeyk maximális, 5 darabos limitjét"
+          "You have reached the maximum limit of 5 passkeys"
         );
       }
 
@@ -63,7 +63,7 @@ export const generateRegistrationOptionsAction = createServerAction()
       if (!optionsRes.ok) {
         throw new ZSAError(
           "INTERNAL_SERVER_ERROR",
-          "Nem sikerült lekérni a passkey opciókat"
+          "Failed to fetch passkey options"
         );
       }
       const options = await optionsRes.json();
@@ -90,12 +90,12 @@ export const verifyRegistrationAction = createServerAction()
       });
 
       if (!user) {
-        throw new ZSAError("NOT_FOUND", "Felhasználó nem található");
+        throw new ZSAError("NOT_FOUND", "User not found");
       }
 
       // Verify the email matches the logged-in user
       if (user.id !== session?.user?.id) {
-        throw new ZSAError("FORBIDDEN", "Csak a saját fiókodhoz regisztrálhatsz passkeyt");
+        throw new ZSAError("FORBIDDEN", "You can only register a passkey for your own account");
       }
 
       const verifyRes = await fetch(`${SITE_URL}/api/webauthn/register`, {
@@ -112,7 +112,7 @@ export const verifyRegistrationAction = createServerAction()
       if (!verifyRes.ok) {
         throw new ZSAError(
           "PRECONDITION_FAILED",
-          "Nem sikerült regisztrálni a passkey-t"
+          "Failed to register the passkey"
         );
       }
       await verifyRes.json();
@@ -135,7 +135,7 @@ export const deletePasskeyAction = createServerAction()
       if (session?.passkeyCredentialId === input.credentialId) {
         throw new ZSAError(
           "FORBIDDEN",
-          "A jelenleg használt passkey nem törölhető"
+          "The currently used passkey cannot be deleted"
         );
       }
 
@@ -156,7 +156,7 @@ export const deletePasskeyAction = createServerAction()
       if (passkeys.length === 1 && !user.passwordHash) {
         throw new ZSAError(
           "FORBIDDEN",
-          "Nem törölheted az utolsó passkeyt, ha nincs jelszó beállítva"
+          "You cannot delete the last passkey if no password is set"
         );
       }
 
@@ -180,7 +180,7 @@ export const generateAuthenticationOptionsAction = createServerAction()
       if (!optionsRes.ok) {
         throw new ZSAError(
           "INTERNAL_SERVER_ERROR",
-          "Nem sikerült lekérni a hitelesítési opciókat"
+          "Failed to fetch authentication options"
         );
       }
       const options: PublicKeyCredentialRequestOptionsJSON = await optionsRes.json();
@@ -191,7 +191,7 @@ export const generateAuthenticationOptionsAction = createServerAction()
 const verifyAuthenticationSchema = z.object({
   response: z.custom<AuthenticationResponseJSON>((val): val is AuthenticationResponseJSON => {
     return typeof val === "object" && val !== null && "id" in val && "rawId" in val;
-  }, "Érvénytelen hitelesítési válasz"),
+  }, "Invalid authentication response"),
   challenge: z.string(),
 });
 
@@ -208,7 +208,7 @@ export const verifyAuthenticationAction = createServerAction()
         }),
       });
       if (!verifyRes.ok) {
-        throw new ZSAError("FORBIDDEN", "A passkey hitelesítés sikertelen");
+        throw new ZSAError("FORBIDDEN", "Passkey authentication failed");
       }
       const { credential } = (await verifyRes.json()) as { credential: { userId: string } };
       await createAndStoreSession(credential.userId, "passkey", input.response.id);

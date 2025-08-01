@@ -1,0 +1,23 @@
+diff --git a/dist/build/helper.js b/dist/build/helper.js
+index a2d81f3990491d15caef4af1d5075254b081a49b..9646d411a9c95c68556408f3de63cf244ba818f6 100644
+--- a/dist/build/helper.js
++++ b/dist/build/helper.js
+@@ -148,7 +148,17 @@ export async function esbuildAsync(esbuildOptions, options) {
+  * @param searchingDir - Directory to search (used for recursion)
+  */
+ export function traverseFiles(root, conditionFn, callbackFn, searchingDir = "") {
+-    fs.readdirSync(path.join(root, searchingDir)).forEach((file) => {
++    let entries;
++    try {
++        entries = fs.readdirSync(path.join(root, searchingDir));
++    }
++    catch (e) {
++        if (e.code === "ENOENT" || e.code === "ESTALE") {
++            return;
++        }
++        throw e;
++    }
++    entries.forEach((file) => {
+         const relativePath = path.join(searchingDir, file);
+         const absolutePath = path.join(root, relativePath);
+         if (fs.statSync(absolutePath).isDirectory()) {

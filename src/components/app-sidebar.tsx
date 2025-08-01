@@ -1,29 +1,24 @@
 "use client"
 
-import { type ComponentType, useEffect, useState } from "react"
+import { type ComponentType } from "react"
 import type { Route } from 'next'
 
 import {
-  Building2,
+  Rocket,
   Frame,
   Map,
   PieChart,
   Settings2,
-  ShoppingCart,
   SquareTerminal,
-  CreditCard,
-  Users,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
 import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
-import { TeamSwitcher } from "@/components/team-switcher"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { useSessionStore } from "@/state/session"
@@ -44,11 +39,6 @@ type Data = {
     name: string
     email: string
   }
-  teams: {
-    name: string
-    logo: ComponentType
-    plan: string
-  }[]
   navMain: NavMainItem[]
   projects: NavItem[]
 }
@@ -56,73 +46,44 @@ type Data = {
 // TODO Add a theme switcher
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { session } = useSessionStore();
-  const [formattedTeams, setFormattedTeams] = useState<Data['teams']>([]);
-
-  // Map session teams to the format expected by TeamSwitcher
-  useEffect(() => {
-    if (session?.teams && session.teams.length > 0) {
-      // Map teams from session to the format expected by TeamSwitcher
-      const teamData = session.teams.map(team => {
-        return {
-          name: team.name,
-          // TODO Get the actual logo when we implement team avatars
-          logo: Building2,
-          // Default plan - you might want to add plan data to your team structure
-          plan: team.role.name || "Member"
-        };
-      });
-
-      setFormattedTeams(teamData);
-    }
-  }, [session]);
 
   const data: Data = {
     user: {
       name: session?.user?.nickname || session?.user?.firstName || "User",
       email: session?.user?.email || "user@example.com",
     },
-    teams: formattedTeams,
     navMain: [
       {
-        title: "Vezérlőpult",
+        title: "Landing",
+        url: "/",
+        icon: Rocket,
+        isActive: true,
+      },
+      {
+        title: "Dashboard",
         url: "/dashboard",
         icon: SquareTerminal,
         isActive: true,
       },
       {
-        title: "Csapatok",
-        url: "/dashboard/teams" as Route,
-        icon: Users,
-      },
-      {
-        title: "Piactér",
-        url: "/dashboard/marketplace",
-        icon: ShoppingCart,
-      },
-      {
-        title: "Számlázás",
-        url: "/dashboard/billing",
-        icon: CreditCard,
-      },
-      {
-        title: "Beállítások",
+        title: "Settings",
         url: "/settings",
         icon: Settings2,
         items: [
           {
-            title: "Profil",
+            title: "Profile",
             url: "/settings",
           },
           {
-            title: "Biztonság",
+            title: "Security",
             url: "/settings/security",
           },
           {
-            title: "Munkamenetek",
+            title: "Sessions",
             url: "/settings/sessions",
           },
           {
-            title: "Jelszó módosítása",
+            title: "Change Password",
             url: "/forgot-password",
           },
         ],
@@ -149,11 +110,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
   return (
     <Sidebar collapsible="icon" {...props}>
-      {data?.teams?.length > 0 && (
-        <SidebarHeader>
-          <TeamSwitcher teams={data.teams} />
-        </SidebarHeader>
-      )}
 
       <SidebarContent>
         <NavMain items={data.navMain} />

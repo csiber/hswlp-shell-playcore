@@ -3,7 +3,7 @@ import "server-only";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { headers } from "next/headers";
 
-import { getUserFromDB, getUserTeamsWithPermissions } from "@/utils/auth";
+import { getUserFromDB } from "@/utils/auth";
 import { getIP } from "./get-IP";
 import { MAX_SESSIONS_PER_USER } from "@/constants";
 const SESSION_PREFIX = "session:";
@@ -89,7 +89,7 @@ export async function createKVSession({
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   const session: KVSession = {
@@ -144,7 +144,7 @@ export async function getKVSession(sessionId: string, userId: string): Promise<K
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   const sessionStr = await kv.get(getSessionKey(userId, sessionId));
@@ -178,24 +178,21 @@ export async function updateKVSession(sessionId: string, userId: string, expires
   const updatedUser = await getUserFromDB(userId);
 
   if (!updatedUser) {
-    throw new Error("Felhasználó nem található");
+    throw new Error("User not found");
   }
-
-  // Get updated teams data with permissions
-  const teamsWithPermissions = await getUserTeamsWithPermissions(userId);
 
   const updatedSession: KVSession = {
     ...session,
     version: CURRENT_SESSION_VERSION,
     expiresAt: expiresAt.getTime(),
     user: updatedUser,
-    teams: teamsWithPermissions
+    teams: session.teams
   };
 
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   await kv.put(
@@ -216,7 +213,7 @@ export async function deleteKVSession(sessionId: string, userId: string): Promis
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   await kv.delete(getSessionKey(userId, sessionId));
@@ -226,7 +223,7 @@ export async function getAllSessionIdsOfUser(userId: string) {
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   const sessions = await kv.list({ prefix: getSessionKey(userId, "") });
@@ -246,15 +243,13 @@ export async function updateAllSessionsOfUser(userId: string) {
   const kv = await getKV();
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   const newUserData = await getUserFromDB(userId);
 
   if (!newUserData) return;
 
-  // Get updated teams data with permissions
-  const teamsWithPermissions = await getUserTeamsWithPermissions(userId);
 
   await Promise.all(
     sessions.map(async (sessionObj) => {
@@ -266,7 +261,6 @@ export async function updateAllSessionsOfUser(userId: string) {
 
       const sessionData = JSON.parse(sessionStr) as KVSession;
       sessionData.user = newUserData;
-      sessionData.teams = teamsWithPermissions;
 
       const ttlInSeconds = Math.floor((expTime - Date.now()) / 1000);
 

@@ -4,7 +4,6 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
 } from "lucide-react"
 
@@ -85,7 +84,7 @@ export function NavUser() {
               <div className="grid flex-1 gap-0.5 text-left text-sm leading-tight">
                 <span className="font-semibold overflow-hidden text-ellipsis whitespace-nowrap">{displayName}</span>
                 <span className="truncate text-xs text-muted-foreground">{user.email}</span>
-                <Badge variant="secondary" className="w-fit text-[10px]" onClick={() => router.push('/dashboard/billing')}>
+                <Badge variant="secondary" className="w-fit text-[10px]">
                   {user.currentCredits} credits
                 </Badge>
               </div>
@@ -122,10 +121,6 @@ export function NavUser() {
               <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/settings')}>
                 <BadgeCheck />
                 Account
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" onClick={() => router.push('/dashboard/billing')}>
-                <CreditCard />
-                Billing
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
                 <Bell />

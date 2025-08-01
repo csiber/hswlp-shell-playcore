@@ -5,8 +5,8 @@ import ResetPasswordClientComponent from "./reset-password.client";
 import { getResetTokenKey } from "@/utils/auth-utils";
 
 export const metadata: Metadata = {
-  title: "Jelszó visszaállítása",
-  description: "Új jelszó megadása a fiókhoz",
+  title: "Reset Password",
+  description: "Set a new password for your account",
 };
 
 export default async function ResetPasswordPage({
@@ -23,7 +23,7 @@ export default async function ResetPasswordPage({
   const { env } = getCloudflareContext();
 
   if (!env?.NEXT_INC_CACHE_KV) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   const resetTokenStr = await env.NEXT_INC_CACHE_KV.get(getResetTokenKey(token));

@@ -38,7 +38,7 @@ export const resendVerificationAction = createServerAction()
         const expiresAt = new Date(Date.now() + EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS * 1000);
 
         if (!env?.NEXT_INC_CACHE_KV) {
-          throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+          throw new Error("Failed to connect to the KV store");
         }
 
         // Save verification token in KV with expiration

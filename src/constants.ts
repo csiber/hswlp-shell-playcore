@@ -1,17 +1,15 @@
 import type { Route } from "next"
 
-export const SITE_NAME = "HSWLP Games"
+export const SITE_NAME = "HSWLP:PlayCore"
 export const SITE_DESCRIPTION =
-  "The future of gaming starts here. Explore the boundaries of interactive entertainment and share your creations with a supportive community. Join us and be part of the gaming revolution!"
-export const SITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://hswlp-shell-games.promnet.workers.dev/"
+  "Hybrid Service Workflow Launch Platform"
+export const SITE_URL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://hswlp-next.promnet.workers.dev/"
 export const GITHUB_REPO_URL = "https://github.com/csiber/hswlp-next"
 
 export const SITE_DOMAIN = new URL(SITE_URL).hostname
 export const PASSWORD_RESET_TOKEN_EXPIRATION_SECONDS = 24 * 60 * 60 // 24 hours
 export const EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS = 24 * 60 * 60 // 24 hours
 export const MAX_SESSIONS_PER_USER = 5;
-export const MAX_TEAMS_CREATED_PER_USER = 3;
-export const MAX_TEAMS_JOINED_PER_USER = 10;
 export const SESSION_COOKIE_NAME = "session";
 
 export const CREDIT_PACKAGES = [

@@ -22,7 +22,7 @@ export async function withKVCache<T>(
   const kv = env.NEXT_INC_CACHE_KV;
 
   if (!kv) {
-    throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+    throw new Error("Failed to connect to the KV store");
   }
 
   // Try to get the cached value

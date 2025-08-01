@@ -28,7 +28,7 @@ export const signUpAction = createServerAction()
           if (!success) {
             throw new ZSAError(
               "INPUT_PARSE_ERROR",
-              "Kérjük, töltsd ki a captchát"
+              "Please complete the captcha"
             )
           }
         }
@@ -42,7 +42,7 @@ export const signUpAction = createServerAction()
         if (existingUser) {
           throw new ZSAError(
             "CONFLICT",
-            "Ez az email cím már foglalt"
+            "This email address is already taken"
           );
         }
 
@@ -62,7 +62,7 @@ export const signUpAction = createServerAction()
         if (!user || !user.email) {
           throw new ZSAError(
             "INTERNAL_SERVER_ERROR",
-            "Nem sikerült létrehozni a felhasználót"
+            "Failed to create user"
           );
         }
 
@@ -87,7 +87,7 @@ export const signUpAction = createServerAction()
           const expiresAt = new Date(Date.now() + EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS * 1000);
 
           if (!env?.NEXT_INC_CACHE_KV) {
-            throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+            throw new Error("Failed to connect to the KV store");
           }
 
           // Save verification token in KV with expiration
@@ -113,7 +113,7 @@ export const signUpAction = createServerAction()
 
           throw new ZSAError(
             "INTERNAL_SERVER_ERROR",
-            "Nem sikerült létrehozni a munkamenetet a regisztráció után"
+            "Failed to create the session after registration"
           );
         }
 

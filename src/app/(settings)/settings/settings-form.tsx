@@ -132,7 +132,7 @@ export function SettingsForm() {
                     <Input {...field} />
                   </FormControl>
                   <FormDescription>
-                    A teljes neved rejtve marad mások elől.
+                    Your full name will remain hidden from others.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

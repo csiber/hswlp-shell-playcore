@@ -6,7 +6,6 @@ import {
   EnvelopeIcon,
   CommandLineIcon,
   SunIcon,
-  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
 const features = [
@@ -51,12 +50,6 @@ const features = [
     description:
       "Built-in form validation with Zod and React Hook Form for a smooth user experience.",
     icon: RocketLaunchIcon,
-  },
-  {
-    name: "Team ready",
-    description:
-      "Designed for collaboration, easily customizable and extendable to suit your team's needs.",
-    icon: UserGroupIcon,
   },
 ];
 

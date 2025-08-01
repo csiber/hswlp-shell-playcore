@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import ForgotPasswordClientComponent from "./forgot-password.client";
 
 export const metadata: Metadata = {
-  title: "Elfelejtett jelszó",
-  description: "Jelszó visszaállítása",
+  title: "Forgot Password",
+  description: "Reset your password",
 };
 
 export default function ForgotPasswordPage() {

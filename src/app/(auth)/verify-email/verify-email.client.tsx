@@ -20,14 +20,14 @@ export default function VerifyEmailClientComponent() {
   const { execute: handleVerification, isPending, error } = useServerAction(verifyEmailAction, {
     onError: ({ err }) => {
       toast.dismiss();
-      toast.error(err.message || "Nem sikerült megerősíteni az email címet");
+      toast.error(err.message || "Failed to verify email address");
     },
     onStart: () => {
-      toast.loading("Email ellenőrzése...");
+      toast.loading("Verifying email...");
     },
     onSuccess: () => {
       toast.dismiss();
-      toast.success("Az email sikeresen megerősítve");
+      toast.success("Email verified successfully");
 
       router.refresh();
 
@@ -44,7 +44,7 @@ export default function VerifyEmailClientComponent() {
         hasCalledVerification.current = true;
         handleVerification(result.data);
       } else {
-        toast.error("Érvénytelen megerősítő token");
+        toast.error("Invalid verification token");
         router.push("/sign-in");
       }
     }
@@ -58,9 +58,9 @@ export default function VerifyEmailClientComponent() {
           <CardHeader className="text-center">
             <div className="flex flex-col items-center space-y-4">
               <Spinner size="large" />
-              <CardTitle>Email ellenőrzése</CardTitle>
+              <CardTitle>Verifying email</CardTitle>
               <CardDescription>
-                Kérjük, várj amíg ellenőrizzük az email címedet...
+                Please wait while we verify your email address...
               </CardDescription>
             </div>
           </CardHeader>
@@ -74,9 +74,9 @@ export default function VerifyEmailClientComponent() {
       <div className="container mx-auto px-4 flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Sikertelen ellenőrzés</CardTitle>
+            <CardTitle>Verification failed</CardTitle>
             <CardDescription>
-              {error?.message || "Nem sikerült ellenőrizni az emailt"}
+              {error?.message || "Unable to verify email"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -85,7 +85,7 @@ export default function VerifyEmailClientComponent() {
               className="w-full"
               onClick={() => router.push("/sign-in")}
             >
-              Vissza a bejelentkezéshez
+              Back to sign in
             </Button>
           </CardContent>
         </Card>
@@ -98,9 +98,9 @@ export default function VerifyEmailClientComponent() {
       <div className="container mx-auto px-4 flex items-center justify-center min-h-screen">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>Érvénytelen megerősítő link</CardTitle>
+            <CardTitle>Invalid verification link</CardTitle>
             <CardDescription>
-              A megerősítő link érvénytelen. Kérj új megerősítő emailt.
+              The verification link is invalid. Please request a new verification email.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -109,7 +109,7 @@ export default function VerifyEmailClientComponent() {
               className="w-full"
               onClick={() => router.push("/sign-in")}
             >
-              Vissza a bejelentkezéshez
+              Back to sign in
             </Button>
           </CardContent>
         </Card>

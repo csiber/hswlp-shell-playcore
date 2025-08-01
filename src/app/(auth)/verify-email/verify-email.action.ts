@@ -19,13 +19,13 @@ export const verifyEmailAction = createServerAction()
         const { env } = getCloudflareContext();
 
         if (!env?.NEXT_INC_CACHE_KV) {
-          throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+          throw new Error("Failed to connect to the KV store");
         }
 
         const verificationTokenStr = await env.NEXT_INC_CACHE_KV.get(getVerificationTokenKey(input.token));
 
         if (!env?.NEXT_INC_CACHE_KV) {
-          throw new Error("Nem sikerült csatlakozni a KV tárhoz");
+          throw new Error("Failed to connect to the KV store");
         }
 
         if (!verificationTokenStr) {
@@ -58,7 +58,7 @@ export const verifyEmailAction = createServerAction()
         if (!user) {
           throw new ZSAError(
             "NOT_FOUND",
-            "Felhasználó nem található"
+            "User not found"
           );
         }
 
@@ -83,7 +83,7 @@ export const verifyEmailAction = createServerAction()
 
           throw new ZSAError(
             "INTERNAL_SERVER_ERROR",
-            "Váratlan hiba történt"
+            "An unexpected error occurred"
           );
         }
       },

@@ -1,0 +1,2 @@
+patchedDependencies:
+  '@opennextjs/aws': patches/@opennextjs__aws.patch

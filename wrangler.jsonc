@@ -5,7 +5,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "account_id": "4e3646aaf967d8895e6596df2d62c3bf",
-  "name": "hswlp-shell-games",
+  "name": "hswlp-shell-playcore",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
   "compatibility_flags": [
@@ -42,7 +42,8 @@
     "EMAIL_FROM": "no-reply@hswlp.hu",
     "EMAIL_FROM_NAME": "HSWLP System",
     "EMAIL_REPLY_TO": "support@hswlp.hu",
-    "JWT_SECRET": "J39sUxv9cvxqbiZDRfLoIGVYh3OcPK5Eq5zzT+eLq9tTyKX7j8pNR3p+E/OnswGZ8NWxKdfmrA1LZK1APpT7Hg=="
+    "JWT_SECRET": "J39sUxv9cvxqbiZDRfLoIGVYh3OcPK5Eq5zzT+eLq9tTyKX7j8pNR3p+E/OnswGZ8NWxKdfmrA1LZK1APpT7Hg==",
+    "SITE_URL": "https://hswlp.com"
   },
   /**
      * Note: Use secrets to store sensitive data.
@@ -55,7 +56,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "hswlp-shell-games",
+      "service": "hswlp-shell-playcore"
     }
   ],
   "durable_objects": {
@@ -72,14 +73,14 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "games-d1",
-      "database_id": "c6c87e09-472f-4c18-ba8c-bdf78a7df5d4",
+      "database_name": "hswlp-d1",
+      "database_id": "f81305ef-3fa9-40d5-a3ab-6ca18e568d9e",
       "migrations_dir": "src/db/migrations"
     },
     {
       "binding": "NEXT_TAG_CACHE_D1",
-      "database_name": "games-d1",
-      "database_id": "c6c87e09-472f-4c18-ba8c-bdf78a7df5d4"
+      "database_name": "hswlp-d1",
+      "database_id": "f81305ef-3fa9-40d5-a3ab-6ca18e568d9e"
     }
   ],
   "kv_namespaces": [
@@ -94,8 +95,8 @@
   ],
   "r2_buckets": [
     {
-      "bucket_name": "games-r2",
-      "binding": "games_r2"
+      "bucket_name": "hswlp-r2",
+      "binding": "hswlp_r2"
     }
   ]
 }

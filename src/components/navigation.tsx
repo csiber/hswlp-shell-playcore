@@ -31,7 +31,7 @@ const ActionButtons = () => {
 
   return (
     <Button asChild onClick={() => setIsOpen(false)}>
-      <Link href="/sign-in">Bejelentkezés</Link>
+      <Link href="/sign-in">Sign in</Link>
     </Button>
   )
 }
@@ -42,10 +42,10 @@ export function Navigation() {
   const pathname = usePathname()
 
   const navItems: NavItem[] = [
-    { name: "Főoldal", href: "/" },
+    { name: "Home", href: "/" },
     ...(session ? [
-      { name: "Beállítások", href: "/settings" },
-      { name: "Vezérlőpult", href: "/dashboard" },
+      { name: "Settings", href: "/settings" },
+      { name: "Dashboard", href: "/dashboard" },
     ] as NavItem[] : []),
   ]
 
@@ -96,7 +96,7 @@ export function Navigation() {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="p-6">
                   <Menu className="w-9 h-9" />
-                  <span className="sr-only">Menü megnyitása</span>
+                  <span className="sr-only">Open menu</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-[240px] sm:w-[300px]">

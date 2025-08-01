@@ -20,14 +20,14 @@ export const signInAction = createServerAction()
           if (!user) {
             throw new ZSAError(
               "NOT_AUTHORIZED",
-              "Érvénytelen email vagy jelszó"
+              "Invalid email or password"
             );
           }
 
           if (!user.passwordHash) {
             throw new ZSAError(
               "NOT_AUTHORIZED",
-              "Érvénytelen email vagy jelszó"
+              "Invalid email or password"
             );
           }
 
@@ -40,7 +40,7 @@ export const signInAction = createServerAction()
           if (!isValid) {
             throw new ZSAError(
               "NOT_AUTHORIZED",
-              "Érvénytelen email vagy jelszó"
+              "Invalid email or password"
             );
           }
 
@@ -57,7 +57,7 @@ export const signInAction = createServerAction()
 
           throw new ZSAError(
             "INTERNAL_SERVER_ERROR",
-            "Váratlan hiba történt"
+            "An unexpected error occurred"
           );
         }
       },
