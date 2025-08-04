@@ -5,7 +5,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "account_id": "4e3646aaf967d8895e6596df2d62c3bf",
-  "name": "hswlp-shell-playcore",
+  "name": "hswlp-next",
   "main": ".open-next/worker.js",
   "compatibility_date": "2025-03-01",
   "compatibility_flags": [
@@ -56,7 +56,7 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "hswlp-shell-playcore"
+      "service": "hswlp-next",
     }
   ],
   "durable_objects": {
